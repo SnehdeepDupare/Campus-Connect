@@ -1,22 +1,24 @@
 import mongoose from "mongoose";
 
-const MONGODB_URL = process.env.MONGODB_URL;
-
-let cached = (global as any).mongoose || { conn: null, promise: null };
+let isConnected = false;
 
 export const connectToDB = async () => {
-  if (cached.conn) return cached.conn;
+  mongoose.set("strictQuery", true);
 
-  if (!MONGODB_URL) throw new Error("MONGODB_URL is missing");
+  if (!process.env.MONGODB_URL) return console.log("Missing MongoDB URL");
 
-  cached.promise =
-    cached.promise ||
-    mongoose.connect(MONGODB_URL, {
-      dbName: "campus_connect",
-      bufferCommands: false,
-    });
+  // If the connection is already established, return without creating a new connection.
+  if (isConnected) {
+    console.log("MongoDB connection already established");
+    return;
+  }
 
-  cached.conn = await cached.promise;
+  try {
+    await mongoose.connect(process.env.MONGODB_URL);
 
-  return cached.conn;
+    isConnected = true;
+    console.log("MongoDB connected");
+  } catch (error) {
+    console.log(error);
+  }
 };
