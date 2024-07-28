@@ -6,6 +6,7 @@ import { connectToDB } from "../mongoose";
 
 import User from "../models/user.model";
 import Post from "../models/post.model";
+import Community from "../models/community.model";
 
 export async function fetchPosts(pageNumber = 1, pageSize = 20) {
   connectToDB();
@@ -22,10 +23,10 @@ export async function fetchPosts(pageNumber = 1, pageSize = 20) {
       path: "author",
       model: User,
     })
-    // .populate({
-    //   path: "community",
-    //   model: Community,
-    // })
+    .populate({
+      path: "community",
+      model: Community,
+    })
     .populate({
       path: "children", // Populate the children field
       populate: {
@@ -65,10 +66,10 @@ export async function createPost({
   try {
     connectToDB();
 
-    // const communityIdObject = await Community.findOne(
-    //   { id: communityId },
-    //   { _id: 1 }
-    // );
+    const communityIdObject = await Community.findOne(
+      { id: communityId },
+      { _id: 1 }
+    );
 
     console.log("Post data to be created:", { text, postImage, author });
 
@@ -76,7 +77,7 @@ export async function createPost({
       text,
       postImage,
       author,
-      //   community: communityIdObject, // Assign communityId if provided, or leave it null for personal account
+      community: communityIdObject, // Assign communityId if provided, or leave it null for personal account
     });
 
     // Update User model
@@ -84,12 +85,12 @@ export async function createPost({
       $push: { posts: createdPost._id },
     });
 
-    // if (communityIdObject) {
-    //   // Update Community model
-    //   await Community.findByIdAndUpdate(communityIdObject, {
-    //     $push: { posts: createdPost._id },
-    //   });
-    // }
+    if (communityIdObject) {
+      // Update Community model
+      await Community.findByIdAndUpdate(communityIdObject, {
+        $push: { posts: createdPost._id },
+      });
+    }
 
     revalidatePath(path);
   } catch (error: any) {
@@ -134,12 +135,12 @@ export async function deletePost(id: string, path: string): Promise<void> {
       ].filter((id) => id !== undefined)
     );
 
-    // const uniqueCommunityIds = new Set(
-    //   [
-    //     ...descendantPosts.map((post) => post.community?._id?.toString()), // Use optional chaining to handle possible undefined values
-    //     mainPost.community?._id?.toString(),
-    //   ].filter((id) => id !== undefined)
-    // );
+    const uniqueCommunityIds = new Set(
+      [
+        ...descendantPosts.map((post) => post.community?._id?.toString()), // Use optional chaining to handle possible undefined values
+        mainPost.community?._id?.toString(),
+      ].filter((id) => id !== undefined)
+    );
 
     // Recursively delete child posts and their descendants
     await Post.deleteMany({ _id: { $in: descendantPostIds } });
@@ -151,10 +152,10 @@ export async function deletePost(id: string, path: string): Promise<void> {
     );
 
     // Update Community model
-    // await Community.updateMany(
-    //   { _id: { $in: Array.from(uniqueCommunityIds) } },
-    //   { $pull: { posts: { $in: descendantPostIds } } }
-    // );
+    await Community.updateMany(
+      { _id: { $in: Array.from(uniqueCommunityIds) } },
+      { $pull: { posts: { $in: descendantPostIds } } }
+    );
 
     revalidatePath(path);
   } catch (error: any) {
@@ -172,11 +173,11 @@ export async function fetchPostById(postId: string) {
         model: User,
         select: "_id id name image",
       }) // Populate the author field with _id and username
-      // .populate({
-      //   path: "community",
-      //   // model: Community,
-      //   select: "_id id name image",
-      // }) // Populate the community field with _id and name
+      .populate({
+        path: "community",
+        model: Community,
+        select: "_id id name image",
+      }) // Populate the community field with _id and name
       .populate({
         path: "children", // Populate the children field
         populate: [
