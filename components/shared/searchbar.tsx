@@ -28,7 +28,7 @@ export const Searchbar = ({ routeType }: Props) => {
   }, [search, routeType, router]);
 
   return (
-    <div className="flex gap-1 rounded-lg bg-dark-3 px-4 py-2">
+    <div className="flex gap-1 rounded-lg bg-secondary px-4 py-2">
       <Image
         src="/search.svg"
         alt="search"
@@ -41,9 +41,9 @@ export const Searchbar = ({ routeType }: Props) => {
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         placeholder={`${
-          routeType !== "/search" ? "Search communities" : "Search creators"
+          routeType !== "search" ? "Search communities" : "Search people"
         }`}
-        className="no-focus border-none bg-secondary outline-none"
+        className="no-focus border-none bg-transparent outline-none"
       />
     </div>
   );
