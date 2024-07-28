@@ -7,6 +7,7 @@ import LeftSidebar from "@/components/shared/sidebar";
 import Bottombar from "@/components/shared/bottombar";
 import Topbar from "@/components/shared/topbar";
 import { Toaster } from "@/components/ui/sonner";
+import { RightSidebar } from "@/components/shared/right-sidebar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -39,7 +40,7 @@ export default function RootLayout({
                 <div className="w-full max-w-4xl">{children}</div>
               </section>
 
-              {/* <RightSidebar /> */}
+              <RightSidebar />
             </main>
 
             <Bottombar />
