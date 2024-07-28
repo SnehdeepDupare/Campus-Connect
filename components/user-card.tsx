@@ -31,7 +31,7 @@ export const UserCard = ({ id, name, username, imgUrl, personType }: Props) => {
 
         <div className="flex-1 text-ellipsis">
           <h4 className="font-semibold">{name}</h4>
-          <p className="text-sm text-gray-1">@{username}</p>
+          <p className="text-sm text-[#697C89]">@{username}</p>
         </div>
       </div>
 
