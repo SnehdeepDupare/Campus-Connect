@@ -1,17 +1,18 @@
 import Image from "next/image";
 import Link from "next/link";
-import { EllipsisVertical } from "lucide-react";
+import {
+  EllipsisVertical,
+  Heart,
+  LinkIcon,
+  MessageCircle,
+  Share2,
+} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 
 import { formatDateString } from "@/lib/utils";
 import { DeletePost } from "./delete-post";
+import { ShareButton } from "./share-button";
 
 interface Props {
   id: string;
@@ -71,16 +72,12 @@ export const PostCard = ({
 
           <div className="flex w-full flex-col">
             <Link href={`/profile/${author.id}`} className="w-fit">
-              <h4 className="cursor-pointer font-semibold text-light-1">
+              <h4 className="cursor-pointer font-semibold text-lg text-white">
                 {author.name}
               </h4>
             </Link>
 
-            <p className="text-xs text-gray-600">
-              {formatDateString(createdAt)}
-            </p>
-
-            <p className="mt-2 text-sm text-gray-400">{content}</p>
+            <p className="mt-2 text-sm text-[#EFEFEF]">{content}</p>
 
             {postImage && (
               <div className="relative min-h-60 w-full max-w-sm mt-5">
@@ -95,32 +92,18 @@ export const PostCard = ({
             )}
 
             <div className={`${isComment && "mb-10"} mt-5 flex flex-col gap-3`}>
-              <div className="flex gap-3.5">
-                <Image
-                  src="/heart.svg"
-                  alt="heart"
-                  width={24}
-                  height={24}
-                  className="cursor-pointer object-contain"
-                />
+              <div className="flex items-center gap-4">
+                <Button variant="ghost" className="rounded-full" size="icon">
+                  <Heart className="h-6 w-6" />
+                </Button>
 
-                <Link href={`/post/${id}`}>
-                  <Image
-                    src="/reply.svg"
-                    alt="heart"
-                    width={24}
-                    height={24}
-                    className="cursor-pointer object-contain"
-                  />
-                </Link>
+                <Button variant="ghost" className="rounded-full" size="icon">
+                  <Link href={`/post/${id}`}>
+                    <MessageCircle className="h-6 w-6" />
+                  </Link>
+                </Button>
 
-                <Image
-                  src="/share.svg"
-                  alt="heart"
-                  width={24}
-                  height={24}
-                  className="cursor-pointer object-contain"
-                />
+                <ShareButton postId={id} />
               </div>
 
               {isComment && comments.length > 0 && (
@@ -134,24 +117,25 @@ export const PostCard = ({
           </div>
         </div>
 
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="rounded-full" size="icon">
-              <EllipsisVertical className="h-5 w-5 cursor-pointer" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem>
-              <DeletePost
-                postId={JSON.stringify(id)}
-                currentUserId={currentUserId}
-                authorId={author.id}
-                parentId={parentId}
-                isComment={isComment}
-              />
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        {/* <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="rounded-full" size="icon">
+                <EllipsisVertical className="h-5 w-5 cursor-pointer" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem> */}
+        <DeletePost
+          postId={JSON.stringify(id)}
+          currentUserId={currentUserId}
+          authorId={author.id}
+          parentId={parentId}
+          isComment={isComment}
+        />
+        {/* </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        */}
       </div>
 
       {!isComment && comments.length > 0 && (
@@ -180,7 +164,7 @@ export const PostCard = ({
           href={`/communities/${community.id}`}
           className="mt-5 flex items-center"
         >
-          <p className="text-subtle-medium text-gray-1">
+          <p className="text-sm font-medium text-[#697C89]">
             {formatDateString(createdAt)}
             {community && ` - ${community.name} Community`}
           </p>
