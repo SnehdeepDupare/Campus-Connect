@@ -169,7 +169,9 @@ const LeftSidebar = () => {
                 <AlertDialogFooter>
                   <AlertDialogCancel>Cancel</AlertDialogCancel>
                   <SignOutButton>
-                    <AlertDialogAction>Logout</AlertDialogAction>
+                    <AlertDialogAction className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+                      Logout
+                    </AlertDialogAction>
                   </SignOutButton>
                 </AlertDialogFooter>
               </AlertDialogContent>
