@@ -25,6 +25,7 @@ import { createPost } from "@/lib/actions/post";
 import { Input } from "../ui/input";
 import { useUploadThing } from "@/lib/uploadthing";
 import { isBase64Image } from "@/lib/utils";
+import { Loader } from "../shared/loader";
 
 interface Props {
   userId: string;
@@ -36,6 +37,7 @@ export const PostInput = ({ userId, userImg }: Props) => {
   const pathname = usePathname();
   const { startUpload } = useUploadThing("media");
   const [files, setFiles] = useState<File[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const { organization } = useOrganization();
 
@@ -72,6 +74,8 @@ export const PostInput = ({ userId, userImg }: Props) => {
   };
 
   const onSubmit = async (values: z.infer<typeof PostSchema>) => {
+    setLoading(true);
+
     const blob = values.postImage;
 
     console.log("Submitting post with values:", values);
@@ -96,6 +100,8 @@ export const PostInput = ({ userId, userImg }: Props) => {
       communityId: organization ? organization.id : null,
       path: pathname,
     });
+
+    setLoading(false);
 
     toast.success("Post Created!");
     router.push("/");
@@ -127,6 +133,7 @@ export const PostInput = ({ userId, userImg }: Props) => {
                   {...field}
                   placeholder="What's happening?"
                   className=""
+                  disabled={loading}
                 />
               </FormControl>
               <FormMessage />
@@ -172,6 +179,7 @@ export const PostInput = ({ userId, userImg }: Props) => {
                       onChange={(e) => {
                         handleImage(e, field.onChange);
                       }}
+                      disabled={loading}
                     />
                   </FormControl>
                 </FormItem>
@@ -179,8 +187,12 @@ export const PostInput = ({ userId, userImg }: Props) => {
             />
           </div>
 
-          <Button type="submit" className="bg-primary">
-            Post
+          <Button
+            type="submit"
+            className="bg-primary dark:text-white"
+            disabled={loading}
+          >
+            {loading && <Loader />}Post
           </Button>
         </div>
       </form>

@@ -24,6 +24,8 @@ import { updateUser } from "@/lib/actions/user";
 
 import { isBase64Image } from "@/lib/utils";
 import { useUploadThing } from "@/lib/uploadthing";
+import { toast } from "sonner";
+import { Loader } from "../shared/loader";
 
 interface Props {
   user: {
@@ -41,6 +43,7 @@ export const OnboardingForm = ({ user }: Props) => {
   const pathname = usePathname();
   const { startUpload } = useUploadThing("media");
   const [files, setFiles] = useState<File[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const form = useForm<z.infer<typeof UserSchema>>({
     resolver: zodResolver(UserSchema),
@@ -76,6 +79,8 @@ export const OnboardingForm = ({ user }: Props) => {
   };
 
   const onSubmit = async (values: z.infer<typeof UserSchema>) => {
+    setLoading(true);
+
     const blob = values.profile_photo;
 
     const hasImageChanged = isBase64Image(blob);
@@ -96,8 +101,11 @@ export const OnboardingForm = ({ user }: Props) => {
       image: values.profile_photo,
     });
 
-    if (pathname === "/profile/edit") {
-      router.back();
+    setLoading(false);
+
+    if (pathname === `/profile/${user.id}`) {
+      toast.success("Profile Updated!");
+      router.push(`/profile/${user.id}`);
     } else {
       router.push("/");
     }
@@ -141,6 +149,7 @@ export const OnboardingForm = ({ user }: Props) => {
                   placeholder="Add profile photo"
                   className="cursor-pointer border-none bg-transparent outline-none file:text-blue-500"
                   onChange={(e) => handleImage(e, field.onChange)}
+                  disabled={loading}
                 />
               </FormControl>
             </FormItem>
@@ -158,6 +167,7 @@ export const OnboardingForm = ({ user }: Props) => {
                   type="text"
                   className="onboarding-input no-focus"
                   {...field}
+                  disabled={loading}
                 />
               </FormControl>
               <FormMessage />
@@ -176,6 +186,7 @@ export const OnboardingForm = ({ user }: Props) => {
                   type="text"
                   className="onboarding-input no-focus"
                   {...field}
+                  disabled={loading}
                 />
               </FormControl>
               <FormMessage />
@@ -194,6 +205,7 @@ export const OnboardingForm = ({ user }: Props) => {
                   rows={10}
                   className="onboarding-input no-focus"
                   {...field}
+                  disabled={loading}
                 />
               </FormControl>
               <FormMessage />
@@ -201,8 +213,12 @@ export const OnboardingForm = ({ user }: Props) => {
           )}
         />
 
-        <Button type="submit" className="w-full">
-          Proceed
+        <Button type="submit" className="w-full" disabled={loading}>
+          {pathname === `/profile/${user.id}` ? (
+            <>{loading && <Loader />} Save</>
+          ) : (
+            <>{loading && <Loader />} Proceed</>
+          )}
         </Button>
       </form>
     </Form>
