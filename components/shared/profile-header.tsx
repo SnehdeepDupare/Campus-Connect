@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Pencil } from "lucide-react";
+import { UpdateProfile } from "./update-profile";
 
 interface Props {
   accountId: string;
@@ -40,13 +41,13 @@ export const ProfileHeader = ({
           </div>
         </div>
         {accountId === authUserId && type !== "Community" && (
-          <Link href="/profile/edit">
-            <div className="flex cursor-pointer items-center gap-3 rounded-lg bg-[#101012] px-4 py-2">
-              <Pencil className="h-4 w-4" />
+          <UpdateProfile />
 
-              <p className="text-[#efefef] max-sm:hidden">Edit</p>
-            </div>
-          </Link>
+          // <div className="flex cursor-pointer items-center gap-3 rounded-lg bg-[#101012] px-4 py-2">
+          //   <Pencil className="h-4 w-4" />
+
+          //   <p className="text-[#efefef] max-sm:hidden">Edit</p>
+          // </div>
         )}
       </div>
 
