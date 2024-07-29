@@ -78,6 +78,7 @@ export const DeletePost = ({
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
               onClick={async () => {
                 await deletePost(JSON.parse(postId), pathname);
                 toast.success("Post Deleted!");
