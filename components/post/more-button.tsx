@@ -1,6 +1,12 @@
 "use client";
 
-import { Delete, EllipsisVertical, Trash, Trash2 } from "lucide-react";
+import {
+  ArrowUpRight,
+  Delete,
+  EllipsisVertical,
+  Trash,
+  Trash2,
+} from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { toast } from "sonner";
 
@@ -34,7 +40,7 @@ interface Props {
   isComment?: boolean;
 }
 
-export const DeletePost = ({
+export const MoreButton = ({
   postId,
   currentUserId,
   authorId,
@@ -44,7 +50,7 @@ export const DeletePost = ({
   const pathname = usePathname();
   const router = useRouter();
 
-  if (currentUserId !== authorId) return null;
+  const id = JSON.parse(postId);
 
   return (
     <AlertDialog>
@@ -56,14 +62,23 @@ export const DeletePost = ({
         </DropdownMenuTrigger>
 
         <DropdownMenuContent align="end">
-          <AlertDialogTrigger>
-            <DropdownMenuItem>
-              <div className="flex items-center gap-x-2 cursor-pointer">
-                <Trash2 className="object-contain h-5 w-5" />
-                <p>Delete Post</p>
-              </div>
-            </DropdownMenuItem>
-          </AlertDialogTrigger>
+          <DropdownMenuItem onClick={() => router.push(`/post/${id}`)}>
+            <div className="flex items-center gap-x-2 cursor-pointer">
+              <ArrowUpRight className="object-contain h-5 w-5" />
+              <p>View Post</p>
+            </div>
+          </DropdownMenuItem>
+
+          {currentUserId === authorId && (
+            <AlertDialogTrigger>
+              <DropdownMenuItem>
+                <div className="flex items-center gap-x-2 cursor-pointer">
+                  <Trash2 className="object-contain h-5 w-5" />
+                  <p>Delete Post</p>
+                </div>
+              </DropdownMenuItem>
+            </AlertDialogTrigger>
+          )}
         </DropdownMenuContent>
       </DropdownMenu>
 
