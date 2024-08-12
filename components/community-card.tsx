@@ -22,7 +22,7 @@ export const CommunityCard = ({
   members,
 }: Props) => {
   return (
-    <article className="w-full rounded-lg bg-[#101012] px-4 py-5 sm:w-96">
+    <article className="w-full rounded-lg border dark:border-none shadow-md dark:shadow-none dark:bg-[#101012] px-4 py-5 sm:w-96">
       <div className="flex flex-wrap items-center gap-3">
         <Link href={`/communities/${id}`} className="relative h-12 w-12">
           <Image
@@ -47,7 +47,7 @@ export const CommunityCard = ({
         <Link href={`/communities/${id}`}>
           <Button
             size="sm"
-            className="rounded-lg bg-primary px-5 py-1.5 text-sm !text-white"
+            className="rounded-lg bg-primary px-5 py-1.5 text-sm text-black dark:!text-white"
           >
             View
           </Button>

@@ -23,6 +23,8 @@ import { useUploadThing } from "@/lib/uploadthing";
 import { ChangeEvent, useState } from "react";
 import { isBase64Image } from "@/lib/utils";
 import { Textarea } from "../ui/textarea";
+import { Loader } from "../shared/loader";
+import { toast } from "sonner";
 
 interface Props {
   postId: string;
@@ -34,6 +36,7 @@ export const Comment = ({ postId, currentUserImg, currentUserId }: Props) => {
   const pathname = usePathname();
   const { startUpload } = useUploadThing("media");
   const [files, setFiles] = useState<File[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const form = useForm<z.infer<typeof CommentSchema>>({
     resolver: zodResolver(CommentSchema),
@@ -67,6 +70,7 @@ export const Comment = ({ postId, currentUserImg, currentUserId }: Props) => {
   };
 
   const onSubmit = async (values: z.infer<typeof CommentSchema>) => {
+    setLoading(true);
     const blob = values.postImage;
 
     console.log("Submitting post with values:", values);
@@ -91,6 +95,9 @@ export const Comment = ({ postId, currentUserImg, currentUserId }: Props) => {
     );
 
     form.reset();
+    setLoading(false);
+
+    toast.success("Reply Added!");
   };
 
   return (
@@ -117,6 +124,7 @@ export const Comment = ({ postId, currentUserImg, currentUserId }: Props) => {
                       {...field}
                       placeholder="Comment..."
                       className="no-focus"
+                      disabled={loading}
                     />
                   </FormControl>
                 </FormItem>
@@ -138,6 +146,7 @@ export const Comment = ({ postId, currentUserImg, currentUserId }: Props) => {
                         type="file"
                         accept="image/*"
                         className="hidden"
+                        disabled={loading}
                         onChange={(e) => {
                           handleImage(e, field.onChange);
                         }}
@@ -166,8 +175,12 @@ export const Comment = ({ postId, currentUserImg, currentUserId }: Props) => {
               )}
             />
           </div>
-          <Button type="submit" className="">
-            Reply
+          <Button
+            type="submit"
+            className="bg-primary text-black dark:text-white"
+            disabled={loading}
+          >
+            {loading && <Loader />} Reply
           </Button>
         </div>
       </form>

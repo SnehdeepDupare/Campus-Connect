@@ -29,7 +29,7 @@ const ProfilePage = async ({ params }: { params: { id: string } }) => {
 
       <div className="mt-9">
         <Tabs defaultValue="posts" className="w-full">
-          <TabsList className="flex min-h-[50px] flex-1 items-center gap-3 bg-[#121417] text-light-2 data-[state=active]:bg-[#0e0e12] data-[state=active]:text-[#efefef]">
+          <TabsList className="flex min-h-[50px] flex-1 items-center gap-3 dark:bg-[#121417] text-light-2 data-[state=active]:bg-[#0e0e12] data-[state=active]:text-[#efefef]">
             {profileTabs.map((tab) => (
               <TabsTrigger key={tab.label} value={tab.value} className="tab">
                 <Image
@@ -54,7 +54,7 @@ const ProfilePage = async ({ params }: { params: { id: string } }) => {
             <TabsContent
               key={`content-${tab.label}`}
               value={tab.value}
-              className="w-full text-white"
+              className="w-full"
             >
               <PostsTab
                 currentUserId={user.id}

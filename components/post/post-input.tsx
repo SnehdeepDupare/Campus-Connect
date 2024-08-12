@@ -110,7 +110,7 @@ export const PostInput = ({ userId, userImg }: Props) => {
   return (
     <Form {...form}>
       <form
-        className="mt-10 flex flex-col justify-start gap-10 bg-[#101012] rounded-lg"
+        className="mt-10 flex flex-col justify-start gap-10 border shadow-md dark:border-none bg-gray-50 dark:bg-[#101012] rounded-lg"
         onSubmit={form.handleSubmit(onSubmit)}
       >
         <FormField
@@ -189,7 +189,7 @@ export const PostInput = ({ userId, userImg }: Props) => {
 
           <Button
             type="submit"
-            className="bg-primary dark:text-white"
+            className="bg-primary text-black dark:text-white"
             disabled={loading}
           >
             {loading && <Loader />}Post

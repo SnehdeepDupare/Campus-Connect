@@ -47,7 +47,7 @@ const LeftSidebar = () => {
   const { userId } = useAuth();
 
   return (
-    <section className="custom-scrollbar sticky left-0 top-0 z-20 flex h-screen w-fit flex-col justify-between overflow-auto border-r py-5 max-md:hidden gap-6">
+    <section className="custom-scrollbar sticky left-0 top-0 z-20 flex h-screen w-fit flex-col justify-between overflow-auto border-r py-5 max-md:hidden gap-6 shadow-md dark:shadow-none">
       <Link href="/">
         <h1 className="font-bold text-3xl px-6">
           <span className="text-primary">C</span>ampus{" "}
@@ -70,7 +70,7 @@ const LeftSidebar = () => {
               className={`relative flex justify-start gap-4 rounded-lg p-4 ${
                 isActive
                   ? "bg-primary hover:bg-primary/80 transition-colors"
-                  : "hover:bg-[#1F1F22] transition-colors"
+                  : "hover:bg-accent dark:hover:bg-[#1F1F22] dark:transition-colors"
               }`}
             >
               <Image
@@ -78,9 +78,10 @@ const LeftSidebar = () => {
                 alt={link.label}
                 width={24}
                 height={24}
+                className="invert dark:invert-0"
               />
 
-              <p className="max-lg:hidden">{link.label}</p>
+              <p className="max-md:hidden">{link.label}</p>
             </Link>
           );
         })}
@@ -90,7 +91,6 @@ const LeftSidebar = () => {
         <SignedIn>
           <OrganizationSwitcher
             appearance={{
-              baseTheme: dark,
               elements: {
                 organizationSwitcherTrigger: "p-4",
               },
@@ -100,9 +100,9 @@ const LeftSidebar = () => {
           <AlertDialog>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <div className="flex cursor-pointer gap-4 p-4 hover:bg-[#1F1F22] transition-colors rounded-lg">
+                <div className="flex cursor-pointer gap-4 p-4 hover:bg-accent dark:hover:bg-[#1F1F22] dark:transition-colors rounded-lg">
                   <Menu className="h-6 w-6" />
-                  <p className="max-lg:hidden">More</p>
+                  <p className="max-md:hidden">More</p>
                 </div>
               </DropdownMenuTrigger>
 
@@ -141,7 +141,7 @@ const LeftSidebar = () => {
                   </DropdownMenuPortal>
                 </DropdownMenuSub>
 
-                <AlertDialogTrigger className="w-full hover:bg-[#1F1F22] transition-colors">
+                <AlertDialogTrigger className="w-full dark:hover:bg-[#1F1F22] transition-colors">
                   <DropdownMenuItem className="flex cursor-pointer p-4 rounded-lg w-full">
                     <div className="flex gap-4">
                       <Image
@@ -149,6 +149,7 @@ const LeftSidebar = () => {
                         alt="logout"
                         width={24}
                         height={24}
+                        className="invert dark:invert-0"
                       />
 
                       <p className="">Logout</p>

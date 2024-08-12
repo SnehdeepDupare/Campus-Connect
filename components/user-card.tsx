@@ -36,7 +36,7 @@ export const UserCard = ({ id, name, username, imgUrl, personType }: Props) => {
       </div>
 
       <Button
-        className="rounded-lg bg-primary text-[12px] dark:text-white"
+        className="rounded-lg bg-primary text-[12px] text-black dark:text-white"
         onClick={() => {
           if (isCommunity) {
             router.push(`/communities/${id}`);

@@ -22,7 +22,7 @@ const ActivityPage = async () => {
           <>
             {activity.map((activity) => (
               <Link key={activity._id} href={`/post/${activity.parentId}`}>
-                <article className="flex items-center gap-2 rounded-md bg-[#121417] px-7 py-4">
+                <article className="flex items-center gap-2 rounded-md shadow-md dark:shadow-none border dark:border-none dark:bg-[#121417] px-7 py-4">
                   <Image
                     src={activity.author.image}
                     alt="user_logo"
@@ -30,11 +30,11 @@ const ActivityPage = async () => {
                     height={20}
                     className="rounded-full object-cover"
                   />
-                  <p className="!text-sm text-white">
+                  <p className="!text-sm dark;text-white">
                     <span className="mr-1 text-primary font-semibold">
                       {activity.author.name}
                     </span>{" "}
-                    replied to your post
+                    replied to your post.
                   </p>
                 </article>
               </Link>

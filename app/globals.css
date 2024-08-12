@@ -44,7 +44,7 @@
     --secondary-foreground: 0 0% 98%;
     --muted: 0 0% 15%;
     --muted-foreground: 240 5% 64.9%;
-    --accent: 12 6.5% 15.1%;
+    --accent: 240 3.7% 15.9%;
     --accent-foreground: 0 0% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 85.7% 97.3%;
@@ -74,11 +74,24 @@
 
 /* Clerk Responsive fix */
 .cl-organizationSwitcherTrigger .cl-userPreview .cl-userPreviewTextContainer {
-  @apply max-sm:hidden;
+  @apply hidden md:block;
 }
 
 .cl-organizationSwitcherTrigger
   .cl-organizationPreview
   .cl-organizationPreviewTextContainer {
-  @apply max-sm:hidden;
+  @apply hidden md:block;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  @apply w-[6px];
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-primary hover:bg-primary/90 rounded-full;
 }
