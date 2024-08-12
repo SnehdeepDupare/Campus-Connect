@@ -24,6 +24,7 @@ interface Result {
       image: string;
     } | null;
     createdAt: string;
+    likes: string[];
     children: {
       author: {
         image: string;
@@ -79,6 +80,7 @@ export const PostsTab = async ({
               : post.community
           }
           createdAt={post.createdAt}
+          likes={post.likes}
           comments={post.children}
         />
       ))}
