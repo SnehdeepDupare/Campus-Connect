@@ -11,8 +11,10 @@ import {
 import { Button } from "@/components/ui/button";
 
 import { formatDateString } from "@/lib/utils";
-import { DeletePost } from "./delete-post";
+import { MoreButton } from "./more-button";
 import { ShareButton } from "./share-button";
+import { LikeButton } from "./like-button";
+import { Gallery } from "../shared/gallery";
 
 interface Props {
   id: string;
@@ -36,6 +38,7 @@ interface Props {
       image: string;
     };
   }[];
+  likes: string[];
   isComment?: boolean;
 }
 
@@ -49,12 +52,15 @@ export const PostCard = ({
   community,
   createdAt,
   comments,
+  likes,
   isComment,
 }: Props) => {
   return (
     <article
       className={`flex w-full flex-col rounded-xl ${
-        isComment ? "px-0 xs:px-7" : "bg-secondary/40 p-7"
+        isComment
+          ? "px-0 xs:px-7"
+          : "border dark:border-none shadow-md dark:shadow-none dark:bg-secondary/40 p-7"
       }`}
     >
       <div className="flex items-start justify-between">
@@ -71,31 +77,51 @@ export const PostCard = ({
           </div>
 
           <div className="flex w-full flex-col">
-            <Link href={`/profile/${author.id}`} className="w-fit">
-              <h4 className="cursor-pointer font-semibold text-lg text-white">
-                {author.name}
-              </h4>
-            </Link>
+            <div className="flex flex-col ">
+              <Link href={`/profile/${author.id}`} className="w-fit">
+                <h4 className="cursor-pointer font-semibold text-lg dark:text-white">
+                  {author.name}
+                </h4>
+              </Link>
 
-            <p className="mt-2 text-sm text-[#EFEFEF]">{content}</p>
+              <div className="flex items-center">
+                <p className="text-xs font-medium text-[#697C89]">
+                  {formatDateString(createdAt)}{" "}
+                </p>
+
+                {!isComment && community && (
+                  <Link
+                    href={`/communities/${community.id}`}
+                    className="flex items-center"
+                  >
+                    <p className="text-xs font-medium text-[#697C89]">
+                      {community && ` - ${community.name} Community`}
+                    </p>
+                    <Image
+                      src={community.image}
+                      alt={community.name}
+                      width={14}
+                      height={14}
+                      className="ml-1 rounded-full object-cover"
+                    />
+                  </Link>
+                )}
+              </div>
+            </div>
+
+            <p className="mt-2 text-sm dark:text-[#EFEFEF]">{content}</p>
 
             {postImage && (
-              <div className="relative min-h-60 w-full max-w-sm mt-5">
-                <Image
-                  src={postImage}
-                  alt="Post Image"
-                  fill
-                  priority
-                  className="object-contain rounded-lg"
-                />
-              </div>
+              <Gallery authorName={author.name} image={postImage} />
             )}
 
             <div className={`${isComment && "mb-10"} mt-5 flex flex-col gap-3`}>
-              <div className="flex items-center gap-4">
-                <Button variant="ghost" className="rounded-full" size="icon">
-                  <Heart className="h-6 w-6" />
-                </Button>
+              <div className="flex items-center max-sm:justify-between md:gap-4">
+                <LikeButton
+                  postId={id}
+                  currentUserId={currentUserId}
+                  initialLikes={likes}
+                />
 
                 <Button variant="ghost" className="rounded-full" size="icon">
                   <Link href={`/post/${id}`}>
@@ -108,7 +134,7 @@ export const PostCard = ({
 
               {isComment && comments.length > 0 && (
                 <Link href={`/post/${id}`}>
-                  <p className="mt-1 text-subtle-medium text-gray-1">
+                  <p className="mt-1 text-xs font-medium dark:text-[#697C89]">
                     {comments.length} repl{comments.length > 1 ? "ies" : "y"}
                   </p>
                 </Link>
@@ -125,7 +151,7 @@ export const PostCard = ({
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem> */}
-        <DeletePost
+        <MoreButton
           postId={JSON.stringify(id)}
           currentUserId={currentUserId}
           authorId={author.id}
@@ -152,31 +178,11 @@ export const PostCard = ({
           ))}
 
           <Link href={`/post/${id}`}>
-            <p className="mt-1 text-subtle-medium text-gray-1">
+            <p className="mt-1 text-xs font-medium text-[#697C89]">
               {comments.length} repl{comments.length > 1 ? "ies" : "y"}
             </p>
           </Link>
         </div>
-      )}
-
-      {!isComment && community && (
-        <Link
-          href={`/communities/${community.id}`}
-          className="mt-5 flex items-center"
-        >
-          <p className="text-sm font-medium text-[#697C89]">
-            {formatDateString(createdAt)}
-            {community && ` - ${community.name} Community`}
-          </p>
-
-          <Image
-            src={community.image}
-            alt={community.name}
-            width={14}
-            height={14}
-            className="ml-1 rounded-full object-cover"
-          />
-        </Link>
       )}
     </article>
   );

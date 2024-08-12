@@ -21,6 +21,7 @@
     "@uploadthing/react": "^6.7.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "lightgallery": "^2.7.2",
     "lucide-react": "^0.414.0",
     "mongodb": "^6.8.0",
     "mongoose": "^8.5.1",
