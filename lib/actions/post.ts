@@ -246,3 +246,45 @@ export async function addCommentToPost(
     throw new Error("Unable to add comment");
   }
 }
+
+export async function likePost(postId: string, userId: string) {
+  try {
+    await connectToDB();
+
+    const post = await Post.findByIdAndUpdate(
+      postId,
+      { $addToSet: { likes: userId } },
+      { new: true } // Return the updated document
+    );
+
+    if (!post) {
+      throw new Error("Post not found");
+    }
+
+    return post.toObject(); // Convert to plain JS object before returning
+  } catch (error: any) {
+    console.error(`Failed to like post: ${error.message}`, error);
+    throw new Error(`Failed to like post: ${error.message}`);
+  }
+}
+
+export async function unlikePost(postId: string, userId: string) {
+  try {
+    await connectToDB();
+
+    const post = await Post.findByIdAndUpdate(
+      postId,
+      { $pull: { likes: userId } },
+      { new: true } // Return the updated document
+    );
+
+    if (!post) {
+      throw new Error("Post not found");
+    }
+
+    return post.toObject(); // Convert to plain JS object before returning
+  } catch (error: any) {
+    console.error(`Failed to unlike post: ${error.message}`, error);
+    throw new Error(`Failed to unlike post: ${error.message}`);
+  }
+}

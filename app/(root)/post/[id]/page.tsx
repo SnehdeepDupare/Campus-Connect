@@ -28,6 +28,7 @@ const PostPage = async ({ params }: { params: { id: string } }) => {
           author={post.author}
           community={post.community}
           createdAt={post.createdAt}
+          likes={post.likes}
           comments={post.children}
         />
       </div>
@@ -52,6 +53,7 @@ const PostPage = async ({ params }: { params: { id: string } }) => {
             author={childItem.author}
             community={childItem.community}
             createdAt={childItem.createdAt}
+            likes={childItem.likes}
             comments={childItem.children}
             isComment
           />

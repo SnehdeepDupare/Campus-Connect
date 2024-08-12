@@ -28,6 +28,7 @@ const postSchema = new mongoose.Schema({
       ref: "Post",
     },
   ],
+  likes: [{ type: String, required: true }],
 });
 
 const Post = mongoose.models.Post || mongoose.model("Post", postSchema);
