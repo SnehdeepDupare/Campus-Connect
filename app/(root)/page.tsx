@@ -1,4 +1,5 @@
 import { PostCard } from "@/components/post/PostCard";
+import { Pagination } from "@/components/shared/pagination";
 import { fetchPosts } from "@/lib/actions/post";
 import { fetchUser } from "@/lib/actions/user";
 import { currentUser } from "@clerk/nextjs/server";
@@ -31,7 +32,7 @@ export default async function Home({
             {result.posts.map((post) => (
               <PostCard
                 key={post._id}
-                id={post._id}
+                id={post._id.toString()}
                 currentUserId={user.id}
                 parentId={post.parentId}
                 content={post.text}
@@ -39,12 +40,19 @@ export default async function Home({
                 author={post.author}
                 community={post.community}
                 createdAt={post.createdAt}
+                likes={post.likes}
                 comments={post.children}
               />
             ))}
           </>
         )}
       </section>
+
+      <Pagination
+        path="/"
+        pageNumber={searchParams?.page ? +searchParams.page : 1}
+        isNext={result.isNext}
+      />
     </div>
   );
 }
