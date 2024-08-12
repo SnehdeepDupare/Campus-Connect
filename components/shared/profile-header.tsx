@@ -51,9 +51,11 @@ export const ProfileHeader = ({
         )}
       </div>
 
-      <p className="mt-6 max-w-lg text-sm text-[#efefef]">{bio}</p>
+      <p className="mt-6 max-w-lg text-sm text-gray-600 dark:text-[#efefef]">
+        {bio}
+      </p>
 
-      <div className="mt-12 h-0.5 w-full bg-[#101012]" />
+      <div className="mt-12 h-0.5 w-full bg-gray-300 dark:bg-[#101012]" />
     </div>
   );
 };

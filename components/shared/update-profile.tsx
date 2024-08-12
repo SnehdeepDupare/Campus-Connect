@@ -32,10 +32,10 @@ export const UpdateProfile = async () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <div className="flex cursor-pointer items-center gap-3 rounded-lg bg-[#101012] px-4 py-2">
+        <div className="flex cursor-pointer items-center gap-3 rounded-lg bg-gray-200 hover:bg-gray-300/50 dark:bg-[#101012] px-4 py-2">
           <Pencil className="h-4 w-4" />
 
-          <p className="text-[#efefef] max-sm:hidden">Edit</p>
+          <p className="dark:text-[#efefef] max-sm:hidden">Edit</p>
         </div>
       </DialogTrigger>
 
