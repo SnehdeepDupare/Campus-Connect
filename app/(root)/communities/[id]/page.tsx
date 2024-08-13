@@ -26,23 +26,28 @@ const CommunityPage = async ({ params }: { params: { id: string } }) => {
         bio={communityDetails.bio}
         type="Community"
       />
+      <div className="mt-12 border-b w-full" />
 
-      <div className="mt-9">
+      <div className="mt-5">
         <Tabs defaultValue="posts" className="w-full">
-          <TabsList className="tab">
+          <TabsList className="flex min-h-[50px] flex-1 items-center gap-3 dark:text-[#efefef] data-[state=active]:bg-[#0e0e12] data-[state=active]:text-[#efefef]">
             {communityTabs.map((tab) => (
-              <TabsTrigger key={tab.label} value={tab.value} className="tab">
+              <TabsTrigger
+                key={tab.label}
+                value={tab.value}
+                className="flex min-h-[40px] flex-1 items-center gap-3 dark:text-[#efefef] dark:data-[state=active]:text-[#efefef]"
+              >
                 <Image
                   src={tab.icon}
                   alt={tab.label}
                   width={24}
                   height={24}
-                  className="object-contain"
+                  className="object-contain invert dark:invert-0"
                 />
                 <p className="max-sm:hidden">{tab.label}</p>
 
                 {tab.label === "Posts" && (
-                  <p className="ml-1 rounded-sm bg-light-4 px-2 py-1 !text-tiny-medium text-light-2">
+                  <p className="ml-1 rounded-sm bg-[#5C5C7B] px-2 py-1 text-xs font-medium text-[#efefef]">
                     {communityDetails.posts.length}
                   </p>
                 )}
@@ -72,15 +77,6 @@ const CommunityPage = async ({ params }: { params: { id: string } }) => {
                 />
               ))}
             </section>
-          </TabsContent>
-
-          <TabsContent value="requests" className="w-full text-light-1">
-            {/* @ts-ignore */}
-            <PostsTab
-              currentUserId={user.id}
-              accountId={communityDetails._id}
-              accountType="Community"
-            />
           </TabsContent>
         </Tabs>
       </div>
