@@ -1,5 +1,11 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { Days_One } from "next/font/google";
+
+export const days_one = Days_One({
+  subsets: ["latin"],
+  weight: ["400"],
+});
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));

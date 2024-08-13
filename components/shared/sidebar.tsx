@@ -38,6 +38,7 @@ import { sidebarLinks } from "@/constants";
 import { Menu, Moon, Sun } from "lucide-react";
 import { Button } from "../ui/button";
 import { useTheme } from "next-themes";
+import { days_one } from "@/lib/utils";
 
 const LeftSidebar = () => {
   const router = useRouter();
@@ -49,7 +50,7 @@ const LeftSidebar = () => {
   return (
     <section className="custom-scrollbar sticky left-0 top-0 z-20 flex h-screen w-fit flex-col justify-between overflow-auto border-r py-5 max-md:hidden gap-6 shadow-md dark:shadow-none">
       <Link href="/">
-        <h1 className="font-bold text-3xl px-6">
+        <h1 className={`font-bold text-3xl px-6 ${days_one.className}`}>
           <span className="text-primary">C</span>ampus{" "}
           <span className="text-primary">C</span>onnect
         </h1>
@@ -81,7 +82,9 @@ const LeftSidebar = () => {
                 className="invert dark:invert-0"
               />
 
-              <p className="max-md:hidden">{link.label}</p>
+              <p className={`max-md:hidden ${isActive && "font-bold"}`}>
+                {link.label}
+              </p>
             </Link>
           );
         })}

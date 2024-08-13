@@ -28,13 +28,14 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { days_one } from "@/lib/utils";
 
 function Topbar() {
   const { setTheme } = useTheme();
   return (
-    <nav className="fixed md:hidden top-0 z-30 flex w-full items-center justify-between border-b shadow-lg px-5 py-2 bg-background">
+    <nav className="fixed md:hidden top-0 z-30 flex w-full items-center justify-between border-b shadow-lg py-2 bg-background">
       <Link href="/">
-        <h1 className="font-bold text-xl">
+        <h1 className={`font-bold text-xl px-6 ${days_one.className}`}>
           <span className="text-primary">C</span>ampus{" "}
           <span className="text-primary">C</span>onnect
         </h1>
