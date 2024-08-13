@@ -57,33 +57,39 @@ export const PostsTab = async ({
   }
   return (
     <section className="mt-9 flex flex-col gap-10">
-      {result.posts.map((post) => (
-        <PostCard
-          key={post._id}
-          id={post._id}
-          currentUserId={currentUserId}
-          parentId={post.parentId}
-          content={post.text}
-          postImage={post.postImage}
-          author={
-            accountType === "User"
-              ? { name: result.name, image: result.image, id: result.id }
-              : {
-                  name: post.author.name,
-                  image: post.author.image,
-                  id: post.author.id,
-                }
-          }
-          community={
-            accountType === "Community"
-              ? { name: result.name, id: result.id, image: result.image }
-              : post.community
-          }
-          createdAt={post.createdAt}
-          likes={post.likes}
-          comments={post.children}
-        />
-      ))}
+      {result.posts.length === 0 ? (
+        <p className="no-result">No Posts by {result.name}!</p>
+      ) : (
+        <>
+          {result.posts.map((post) => (
+            <PostCard
+              key={post._id}
+              id={post._id}
+              currentUserId={currentUserId}
+              parentId={post.parentId}
+              content={post.text}
+              postImage={post.postImage}
+              author={
+                accountType === "User"
+                  ? { name: result.name, image: result.image, id: result.id }
+                  : {
+                      name: post.author.name,
+                      image: post.author.image,
+                      id: post.author.id,
+                    }
+              }
+              community={
+                accountType === "Community"
+                  ? { name: result.name, id: result.id, image: result.image }
+                  : post.community
+              }
+              createdAt={post.createdAt}
+              likes={post.likes}
+              comments={post.children}
+            />
+          ))}
+        </>
+      )}
     </section>
   );
 };
